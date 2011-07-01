@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "config/development.yml",
     "config/foo.json",
     "config/server.yml",
+    "configurator.gemspec",
     "lib/configurator.rb",
     "lib/magic_hash.rb",
     "spec/configurator_spec.rb",
