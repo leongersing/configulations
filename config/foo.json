@@ -1,0 +1,5 @@
+{ "name": "foo"
+, "person": "bar"
+, "people":["frank", "sally"]
+, "other":[{"foo":"bar"},{"bar":"baz"}]
+}
