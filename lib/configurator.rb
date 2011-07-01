@@ -1,6 +1,6 @@
 require 'yaml'
 require 'json'
-require './magic_hash'
+require 'magic_hash'
 
 class Configurator
   attr_accessor :properties

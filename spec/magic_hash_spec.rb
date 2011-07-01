@@ -1,4 +1,4 @@
-require "./magic_hash"
+require "spec_helper"
 
 describe(MagicHash) do
   describe("what makes it magical...") do
