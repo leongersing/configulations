@@ -10,7 +10,7 @@ module MagicHash
     tmp={}
     tmp.extend(MagicHash)
     self.each_pair do |key, value|
-      new_key = key.gsub(/\s|-/,"_").to_sym
+      new_key = key.gsub(/\s|-/,"_").strip.to_sym
       if(value.is_a? Hash)
         value.extend(MagicHash) unless value.respond_to? :objectify
         tmp[new_key] = value.make_keys_valid_message_aliases
@@ -55,7 +55,7 @@ module MagicHash
   end
 
   def method_missing(method_name, *args, &blk)
-    message = method_name.to_s.downcase.gsub(/-/,"_").to_sym
+    message = method_name.to_s.strip.downcase.gsub(/-/,"_").to_sym
     if message =~ /=/
       self[message]= args.flatten.first
       return
