@@ -4,7 +4,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{configurator}
+  s.name = %q{configulations}
   s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -28,14 +28,14 @@ Gem::Specification.new do |s|
     "config/development.yml",
     "config/foo.json",
     "config/server.yml",
-    "configurator.gemspec",
-    "lib/configurator.rb",
+    "configulations.gemspec",
+    "lib/configulations.rb",
     "lib/magic_hash.rb",
-    "spec/configurator_spec.rb",
+    "spec/configulations_spec.rb",
     "spec/magic_hash_spec.rb",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/leongersing/configurator}
+  s.homepage = %q{http://github.com/leongersing/configulations}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}

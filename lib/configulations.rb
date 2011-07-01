@@ -2,7 +2,7 @@ require 'yaml'
 require 'json'
 require 'magic_hash'
 
-class Configurator
+class Configulations
   attr_accessor :properties
 
   def initialize

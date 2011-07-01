@@ -1,4 +1,4 @@
-= Configurator
+= Configulations - You can have a simple configuration class for Ruby apps!
 
 This is a bare bones, simple way to add configuration files to your ruby
 apps using either json or yml. Then, you can simply call into the configurator like
@@ -13,12 +13,12 @@ hash for any one that is using it.
 
 == EXAMPLE
 
-by default, Configurator is going to recursively dive into a "config" directory located
+by default, Configulations is going to recursively dive into a "config" directory located
 by the location of the executing ruby process. from there, any files ending in .yml or .json
 with the respetive content-types of YAML or JSON will be loaded. The name of the file is 
 the first key and all properties can be fetched from there.
 
-config = Configurator.new #=> finds config/server.json and config/admins.yml
+config = Configulations.new #=> finds config/server.json and config/admins.yml
 config.server.host #=> "localhost"
 config.admins.include? User.find_by_name("leon") #=> true
 
@@ -40,7 +40,7 @@ as well as allow for some robust Ruby configuration files that could take advant
 of run time-evaluation and flow control for those situations when you'd like to let
 configuration be a bit more flexible than a yml, json file would allow.
 
-== Contributing to configurator
+== Contributing to configulations
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
@@ -49,6 +49,7 @@ configuration be a bit more flexible than a yml, json file would allow.
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+* This list is from Jeweler. Which is awesome...
 
 == Copyright
 

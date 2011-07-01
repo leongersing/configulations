@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "configurator"
+  gem.name = "configulations"
   gem.homepage = "http://github.com/leongersing/configurator"
   gem.license = "MIT"
   gem.summary = "Simple Config class for Ruby apps."
