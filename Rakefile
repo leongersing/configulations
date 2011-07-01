@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "configurator"
   gem.homepage = "http://github.com/leongersing/configurator"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "Simple Config class for Ruby apps."
+  gem.description = "Auto-create configuration objects for your applications from yml and json files."
   gem.email = "leongersing@gmail.com"
   gem.authors = ["Leon Gersing"]
   # dependencies defined in Gemfile
