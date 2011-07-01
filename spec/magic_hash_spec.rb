@@ -15,5 +15,21 @@ describe(MagicHash) do
       options.is_a?(Hash).should == true
     end
 
+    it "lets you add keys that don't exist." do
+      options = {:foo => "bar"}
+      options.extend(MagicHash)
+      options.foo.should == "bar"
+      options.baz = "leon"
+      options.baz.should == "leon"
+    end
+
+    it "makes new Hash assignments, magic." do
+      options = {:foo => "bar"}
+      options.extend(MagicHash)
+      options.foo.should == "bar"
+      options.org_chart = {"employees" => [{"name"=>"Leon"},{"name"=>"Jerry"}]}
+      options.org_chart.employees.first.name.should == "Leon"
+    end
+
   end
 end
