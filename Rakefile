@@ -15,7 +15,7 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "configulations"
-  gem.homepage = "http://github.com/leongersing/configurator"
+  gem.homepage = "http://github.com/leongersing/configulations"
   gem.license = "MIT"
   gem.summary = "Simple Config class for Ruby apps."
   gem.description = "Auto-create configuration objects for your applications from yml and json files."
@@ -43,7 +43,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "configurator #{version}"
+  rdoc.title = "configulations #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

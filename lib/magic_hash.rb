@@ -35,7 +35,7 @@ module MagicHash
     tmp.extend(MagicHash)
     self.each_pair do |k, v|
       if v.is_a? Hash
-        v.extend(self) unless v.respond_to? :objectify
+        v.extend(MagicHash) unless v.respond_to? :objectify
         tmp[k.to_sym]= v.hash_all_keys
       elsif v.is_a? Array
         v = v.map do |value|
