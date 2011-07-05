@@ -23,6 +23,12 @@ describe Configulations do
       c.server.content_types.should be_a_kind_of Array
       c.server.content_types.length.should == 3
     end
+
+    it "responds to known booleans." do
+      c = Configulations.new
+      c.server.cache_enabled?.should == true
+      c.server.cache_enabled?.should be_true
+    end
   end
 end
 

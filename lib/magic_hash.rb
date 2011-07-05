@@ -60,6 +60,8 @@ module MagicHash
       self[message.gsub(/=/,"").to_sym]= args.flatten.first
       self.objectify
       return
+    elsif message =~ /\?/
+      return !!(self[message.gsub(/\?/,"").to_sym])
     else
       result = self[message.to_sym]
       return result if result
