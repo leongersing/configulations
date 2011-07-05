@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{configulations}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Leon Gersing"]
-  s.date = %q{2011-07-01}
+  s.date = %q{2011-07-05}
   s.description = %q{Auto-create configuration objects for your applications from yml and json files.}
   s.email = %q{leongersing@gmail.com}
   s.extra_rdoc_files = [
