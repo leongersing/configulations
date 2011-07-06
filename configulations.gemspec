@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{configulations}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Leon Gersing"]
-  s.date = %q{2011-07-05}
+  s.date = %q{2011-07-06}
   s.description = %q{Auto-create configuration objects for your applications from yml and json files.}
   s.email = %q{leongersing@gmail.com}
   s.extra_rdoc_files = [
@@ -28,10 +28,15 @@ Gem::Specification.new do |s|
     "config/development.yml",
     "config/foo.json",
     "config/server.yml",
+    "config/singles/first.yml",
+    "config/singles/fourth.json",
+    "config/singles/second.yml",
+    "config/singles/third.js",
     "configulations.gemspec",
     "lib/configulations.rb",
     "lib/magic_hash.rb",
     "spec/configurator_spec.rb",
+    "spec/inclusive_spec.rb",
     "spec/magic_hash_spec.rb",
     "spec/sample_spec.rb",
     "spec/spec_helper.rb"
