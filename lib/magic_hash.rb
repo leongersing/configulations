@@ -1,5 +1,9 @@
 module MagicHash
 
+  def self.new
+    Hash.new.extend(MagicHash)
+  end
+
   def objectify
     self.make_keys_valid_message_aliases
     self.hash_all_keys
@@ -7,8 +11,7 @@ module MagicHash
   end
 
   def make_keys_valid_message_aliases
-    tmp={}
-    tmp.extend(MagicHash)
+    tmp = MagicHash.new
     self.each_pair do |key, value|
       new_key = key.is_a?(Symbol) ? key : key.gsub(/\s|-/,"_").strip.to_sym
       if(value.is_a? Hash)
@@ -30,9 +33,8 @@ module MagicHash
     self.replace(tmp)
   end
 
-  def hash_all_keys()
-    tmp = {}
-    tmp.extend(MagicHash)
+  def hash_all_keys
+    tmp = MagicHash.new
     self.each_pair do |k, v|
       if v.is_a? Hash
         v.extend(MagicHash) unless v.respond_to? :objectify
