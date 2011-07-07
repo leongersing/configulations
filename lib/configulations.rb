@@ -19,8 +19,7 @@ class Configulations
   end
 
   def find_properties
-    @properties = {}
-    @properties.extend(MagicHash)
+    @properties = MagicHash.new
 
     Dir[@include_pattern].each do |file|
       ext = File.extname(file)
@@ -33,9 +32,10 @@ class Configulations
   end
 
   def parser_for_extname(extname)
-    if(extname =~ /\.js(?:on)?/i)
+    case extname
+    when /\.js(?:on)?/i
       return JSON
-    elsif(extname =~ /\.ya?ml/i)
+    when /\.ya?ml/i
       return YAML
     else
       raise "Only files ending in .js, .json, .yml, .yaml have parsers at the moment."
