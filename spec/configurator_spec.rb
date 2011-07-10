@@ -32,28 +32,31 @@ describe Configulations do
   end
 
   describe "Inheritance" do
-    context "when a configulation is initialized" do
-      before do
-        @config = Configulations.new
+    before do
+      @config = Configulations.new
+    end
+
+    context "when child introduces new config option" do
+      it "is appended and namespaced to parent" do
+        # config/parent/child.json specifies:
+        #   favorite_movie = Empire Strikes Back
+        @config.parent.child.favorite_movie.should == "Empire Strikes Back"
       end
 
-      it "has test data setup" do
-        obj = JSON.load(File.read @config.include_pattern)
-        obj["alignment"].should == "good"
-        File.exists?("./config/parent/child.json").should be_true
+      it "retains non-overwritten options" do
+        # config/parent/child.json specifies:
+        #   favorite_actor = Harrison Ford
+        @config.parent.favorite_actor.should == "Harrison Ford"
       end
+    end
 
-      context "when child introduces new config option" do
-        it "is appended and namespaced to parent" do
-          @config.parent.child.xyz.should == "foobarbaz"
-        end
-      end
-
-      context "when child and parent share option" do
-        it "overwrites parent config option" do
-          raise @config.inspect
-          @config.parent.alignment.should == "evil"
-        end
+    context "when child and parent share option" do
+      it "overwrites parent config option" do
+        # config/parent.json specifies:
+        #   favorite_trilogy = Lord of the Rings
+        # config/parent/child.json specifies:
+        #   favorite_trilogy = Star Wars
+        @config.parent.favorite_trilogy.should == "Star Wars"
       end
     end
   end
