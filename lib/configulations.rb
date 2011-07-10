@@ -3,12 +3,15 @@ require 'json'
 require 'magic_hash'
 
 class Configulations
-  attr_accessor :properties
-  attr_accessor :include_pattern
 
-  def initialize
-    @include_pattern = File.expand_path(".") << "/config/**/*.{yml,json}"
-    find_properties
+  INCLUDE_PATTERN = File.expand_path(".") << "/config/**/*.{yml,json}"
+
+  attr_accessor :properties
+
+  def initialize(pattern=INCLUDE_PATTERN)
+    @properties = MagicHash.new
+    find_properties(top_level_config_files(pattern))
+    @properties.objectify
   end
 
   def self.configure(&blk)
@@ -18,17 +21,23 @@ class Configulations
     me
   end
 
-  def find_properties
-    @properties = MagicHash.new
+  def find_properties(config_files, props=@properties, parent=nil)
+    unless config_files.empty?
+      file        = config_files.shift
+      ext         = File.extname(file)
+      base        = File.basename(file, ext)
+      parser      = parser_for_extname(ext)
+      props[base] = parser.send(:load, File.read(file))
 
-    Dir[@include_pattern].each do |file|
-      ext = File.extname(file)
-      base = File.basename(file, ext)
-      parser = parser_for_extname(ext)
-      @properties[base]= parser.send(:load, File.read(file))
+      if Dir.exists?(dir = "#{File.dirname(file)}/#{base}")
+        child_configs = Dir.glob("#{dir}/*.{yml,json}")
+        find_properties(child_configs, props[base], base)
+      else
+        props[base] = parser.send(:load, File.read(file))
+      end
+
+      find_properties(config_files, props)
     end
-
-    @properties.objectify
   end
 
   def parser_for_extname(extname)
@@ -55,4 +64,16 @@ class Configulations
 
     super message_name, *message_arguments, &optional_block
   end
+
+  private
+
+  def top_level_config_files(pattern)
+    (config_files = Dir.glob(pattern)).reject do |file|
+      ext  = File.extname(file)
+      base = File.basename(file, ext)
+      parent_config = file.gsub(/\/#{base}#{ext}/, ext)
+      config_files.include?(parent_config)
+    end
+  end
+
 end
