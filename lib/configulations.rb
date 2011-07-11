@@ -4,30 +4,39 @@ require 'magic_hash'
 
 class Configulations
   attr_accessor :properties
-  attr_accessor :include_pattern
+  attr_accessor :supported_extensions
+  attr_accessor :root
 
-  def initialize
-    @include_pattern = File.expand_path(".") << "/config/**/*.{yml,json}"
-    find_properties
+  def initialize(root="./config")
+    @root = File.expand_path(root)
+    @supported_extensions = [:yml, :json, :yaml, :js]
+    find_properties("#{@root}/*") unless @properties
   end
 
   def self.configure(&blk)
     me = Configulations.new
     blk.call(me)
-    me.find_properties
+    me.find_properties("#{@root}/*")
     me
   end
 
-  def find_properties
+  def find_properties(starting_dir)
     @properties = MagicHash.new
 
-    Dir[@include_pattern].each do |file|
-      ext = File.extname(file)
-      base = File.basename(file, ext)
-      parser = parser_for_extname(ext)
-      @properties[base]= parser.send(:load, File.read(file))
+    Dir[starting_dir].each do |file|
+      if File.directory?(file)
+        base = File.basename(file)
+        unless @properties[base]
+          @properties[base] = Configulations.new(file)
+        end
+      elsif(supported_extensions.include?(File.extname(file)[1..-1].to_sym))
+        ext = File.extname(file)
+        base = File.basename(file, ext)
+        parser = parser_for_extname(ext)
+        data = parser.send(:load, File.read(file))
+        @properties[base]= parser.send(:load, File.read(file))
+      end
     end
-
     @properties.objectify
   end
 

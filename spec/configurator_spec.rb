@@ -29,6 +29,17 @@ describe Configulations do
       c.server.cache_enabled?.should == true
       c.server.cache_enabled?.should be_true
     end
+
+    it "is recursive when it needs to be" do
+      c = Configulations.new
+      c.singles.first.name.should == "Leon"
+    end
+    
+    it "can be used from constants defined in the executing process." do
+      MyConfig.should_not be_nil
+      MyConfig.root.should_not be_nil
+      MyConfig.root.should == "/usr/local/bin/awesome"
+    end
   end
 end
 
