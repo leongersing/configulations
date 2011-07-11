@@ -30,5 +30,35 @@ describe Configulations do
       c.server.cache_enabled?.should be_true
     end
   end
+
+  describe "Inheritance" do
+    before do
+      @config = Configulations.new
+    end
+
+    context "when child introduces new config option" do
+      it "is appended and namespaced to parent" do
+        # config/parent/child.json specifies:
+        #   favorite_movie = Empire Strikes Back
+        @config.parent.child.favorite_movie.should == "Empire Strikes Back"
+      end
+
+      it "retains non-overwritten options" do
+        # config/parent/child.json specifies:
+        #   favorite_actor = Harrison Ford
+        @config.parent.favorite_actor.should == "Harrison Ford"
+      end
+    end
+
+    context "when child and parent share option" do
+      it "overwrites parent config option" do
+        # config/parent.json specifies:
+        #   favorite_trilogy = Lord of the Rings
+        # config/parent/child.json specifies:
+        #   favorite_trilogy = Star Wars
+        @config.parent.favorite_trilogy.should == "Star Wars"
+      end
+    end
+  end
 end
 

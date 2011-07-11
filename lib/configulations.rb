@@ -3,32 +3,48 @@ require 'json'
 require 'magic_hash'
 
 class Configulations
-  attr_accessor :properties
-  attr_accessor :include_pattern
+
+  attr_accessor :properties, :include_pattern
 
   def initialize
     @include_pattern = File.expand_path(".") << "/config/**/*.{yml,json}"
-    find_properties
+    @properties = MagicHash.new
+    find_properties(top_level_config_files)
+    @properties.objectify
   end
 
   def self.configure(&blk)
     me = Configulations.new
+    me.properties.clear
     blk.call(me)
-    me.find_properties
+    me.find_properties(me.top_level_config_files)
+    me.properties.objectify
     me
   end
 
-  def find_properties
-    @properties = MagicHash.new
+  def find_properties(config_files, props=@properties, parent=nil)
+    unless config_files.empty?
+      file        = config_files.shift
+      ext         = File.extname(file)
+      base        = File.basename(file, ext)
+      parser      = parser_for_extname(ext)
+      config_data = parser.send(:load, File.read(file))
 
-    Dir[@include_pattern].each do |file|
-      ext = File.extname(file)
-      base = File.basename(file, ext)
-      parser = parser_for_extname(ext)
-      @properties[base]= parser.send(:load, File.read(file))
+      if parent
+        config_data.each_key do |key|
+          props[key] = config_data.delete(key) if props[key]
+        end
+      end
+
+      props[base] = config_data
+
+      if Dir.exists?(dir = "#{File.dirname(file)}/#{base}")
+        child_configs = Dir.glob("#{dir}/*.{yml,json}")
+        find_properties(child_configs, props[base], base)
+      end
+
+      find_properties(config_files, props)
     end
-
-    @properties.objectify
   end
 
   def parser_for_extname(extname)
@@ -39,6 +55,15 @@ class Configulations
       return YAML
     else
       raise "Only files ending in .js, .json, .yml, .yaml have parsers at the moment."
+    end
+  end
+
+  def top_level_config_files
+    (config_files = Dir.glob(include_pattern)).reject do |file|
+      ext  = File.extname(file)
+      base = File.basename(file, ext)
+      parent_config = file.gsub(/\/#{base}#{ext}/, ext)
+      config_files.include?(parent_config)
     end
   end
 
@@ -55,4 +80,5 @@ class Configulations
 
     super message_name, *message_arguments, &optional_block
   end
+
 end
