@@ -24,18 +24,24 @@ config.server.host #=> "localhost"
 config.admins.include? User.find_by_name("leon") #=> true
 ```
 
+Thanks to tonywok for starting the inheritance work... this is now possible: 
+
+structure:
+  config/
+    application.yml   #=> (host: 'production.local')
+    application/
+      development.yml #=> (host: 'development.local')
+      test.yml        #=> (host: 'test.local')
+
+if each has a host... then you can call it like so...
+
+ENV["APP_ENV"] ||= "test" #=> current support vars are "RACK_ENV", "RAILS_ENV", "APP_ENV"
+MyConfig.application.host.should == "test.local"
+
 ## Known Issues
 
 * Right now data is first in- first out. If you have 2 config files with the same name
 the last one in, wins.
-* There is no inheritence. You can't set global options and then over-ride them with
-another file.
-
-You can however, augment the settings anytime you like. 
-
-```ruby
-config.admins.pop #=> gives one of our admins.
-```
 
 ## Future
 
