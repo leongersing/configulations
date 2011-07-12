@@ -3,41 +3,48 @@ require 'json'
 require 'magic_hash'
 
 class Configulations
+  attr_accessor :root
   attr_accessor :properties
   attr_accessor :supported_extensions
-  attr_accessor :root
 
   def initialize(root="./config")
     @root = File.expand_path(root)
-    @supported_extensions = [:yml, :json, :yaml, :js]
-    find_properties("#{@root}/*") unless @properties
-  end
-
-  def self.configure(&blk)
-    me = Configulations.new
-    blk.call(me)
-    me.find_properties("#{@root}/*")
-    me
-  end
-
-  def find_properties(starting_dir)
+    @supported_extensions = [:yml, :yaml, :js, :json]
     @properties = MagicHash.new
+    find_properties(config_files_at_dir(@root))
+    @properties.objectify
+  end
 
-    Dir[starting_dir].each do |file|
-      if File.directory?(file)
-        base = File.basename(file)
-        unless @properties[base]
-          @properties[base] = Configulations.new(file)
-        end
-      elsif(supported_extensions.include?(File.extname(file)[1..-1].to_sym))
-        ext = File.extname(file)
-        base = File.basename(file, ext)
-        parser = parser_for_extname(ext)
-        data = parser.send(:load, File.read(file))
-        @properties[base]= parser.send(:load, File.read(file))
+  def find_properties(config_files, props=@properties, parent=nil)
+    return if config_files.empty?
+    file        = config_files.shift
+    ext         = File.extname(file)
+    base        = File.basename(file, ext)
+    parser      = parser_for_extname(ext)
+    config_data = parser.send(:load, File.read(file))
+
+    if parent
+      config_data.each_key do |key|
+        props[key] = config_data.delete(key) if props[key]
       end
     end
-    @properties.objectify
+
+    props[base] = config_data
+
+    if Dir.exists?(dir = "#{File.dirname(file)}/#{base}")
+      child_configs = glob_directory_against_supported_extensions(dir)
+      find_properties(child_configs, props[base], base)
+    end
+
+    find_properties(config_files, props)
+  end
+
+  def glob_directory_against_supported_extensions(dir)
+    Dir.glob("#{dir}/*.{#{ext_glob_string}}")
+  end
+
+  def ext_glob_string
+    supported_extensions.map{|x|x.to_s}.join(",")
   end
 
   def parser_for_extname(extname)
@@ -48,6 +55,15 @@ class Configulations
       return YAML
     else
       raise "Only files ending in .js, .json, .yml, .yaml have parsers at the moment."
+    end
+  end
+
+  def config_files_at_dir(dir)
+    ( config_files = glob_directory_against_supported_extensions(dir.to_s) ).reject do |file|
+      ext  = File.extname(file)
+      base = File.basename(file, ext)
+      parent_config = file.gsub(/\/#{base}#{ext}/, ext)
+      config_files.include?(parent_config)
     end
   end
 
@@ -64,4 +80,5 @@ class Configulations
 
     super message_name, *message_arguments, &optional_block
   end
+
 end
