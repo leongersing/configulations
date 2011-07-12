@@ -5,40 +5,48 @@
 
 Gem::Specification.new do |s|
   s.name = %q{configulations}
-  s.version = "0.1.5"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Leon Gersing"]
-  s.date = %q{2011-07-06}
+  s.date = %q{2011-07-12}
   s.description = %q{Auto-create configuration objects for your applications from yml and json files.}
   s.email = %q{leongersing@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
     ".rspec",
+    ".rvmrc",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
+    "config/application.yml",
+    "config/application/development.yml",
+    "config/application/test.yml",
     "config/development.yml",
     "config/foo.json",
+    "config/parent.json",
+    "config/parent/child.json",
     "config/server.yml",
-    "config/singles/first.yml",
-    "config/singles/fourth.json",
-    "config/singles/second.yml",
-    "config/singles/third.js",
+    "config/ships/flying/classic.yml",
+    "config/ships/flying/fictional.yml",
+    "config/ships/flying/modern.yml",
+    "config/singles.yml",
+    "config/singles/person_four.json",
+    "config/singles/person_one.yml",
+    "config/singles/person_three.js",
+    "config/singles/person_two.yaml",
     "configulations.gemspec",
     "lib/configulations.rb",
     "lib/magic_hash.rb",
     "spec/configurator_spec.rb",
-    "spec/inclusive_spec.rb",
     "spec/magic_hash_spec.rb",
-    "spec/sample_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/leongersing/configulations}
@@ -55,17 +63,20 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<ruby-debug19>, [">= 0"])
     else
       s.add_dependency(%q<rspec>, ["~> 2.3.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<ruby-debug19>, [">= 0"])
     end
   else
     s.add_dependency(%q<rspec>, ["~> 2.3.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<ruby-debug19>, [">= 0"])
   end
 end
 
