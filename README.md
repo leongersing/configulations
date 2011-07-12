@@ -61,6 +61,14 @@ configuration be a bit more flexible than a yml, json file would allow.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 * This list is from Jeweler. Which is awesome...
 
+## Contributors
+
+Many thanks to anyone who sends patches, emails, love my way to keep this
+software alive and a joy to maintain.
+
+github.com/tonywok
+github.com/al2o3cr (during pairing day at EdgeCase!)
+
 ## Copyright
 
 Copyright (c) 2011 Leon Gersing. See LICENSE.txt for
