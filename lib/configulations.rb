@@ -6,13 +6,19 @@ class Configulations
   attr_accessor :root
   attr_accessor :properties
   attr_accessor :supported_extensions
+  attr_accessor :environments
 
   def initialize(root="./config")
-    @root = File.expand_path(root)
+    @root                 = File.expand_path(root)
     @supported_extensions = [:yml, :yaml, :js, :json]
-    @properties = MagicHash.new
+    @environments         = ["RAILS_ENV", "RACK_ENV", "APP_ENV"]
+    @properties           = MagicHash.new
     find_properties(config_files_at_dir(@root))
     @properties.objectify
+  end
+
+  def environmental_override?(base)
+    !@environments.select{|ev| base.downcase == (ENV[ev] || "").downcase}.empty?
   end
 
   def find_properties(config_files, props=@properties, parent=nil)
@@ -24,9 +30,8 @@ class Configulations
     config_data = parser.send(:load, File.read(file))
 
     if parent
-      config_data.each_key do |key|
-        props[key] = config_data.delete(key) if props[key]
-      end
+      props.merge!(config_data) if environmental_override?(base)
+      props[parent] = config_data if props[parent]
     end
 
     props[base] = config_data
@@ -36,7 +41,7 @@ class Configulations
       find_properties(child_configs, props[base], base)
     end
 
-    find_properties(config_files, props)
+    find_properties(config_files, props, parent)
   end
 
   def glob_directory_against_supported_extensions(dir)

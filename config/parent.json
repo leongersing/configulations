@@ -1,2 +1,4 @@
-{ "favorite_actor" : "Harrison Ford",
-  "favorite_trilogy" : "Lord of the Rings" }
+{ "favorite_actor"   : "Harrison Ford"
+, "favorite_movie"   : "Lord of the Rings"
+, "favorite_trilogy" : "Lord of the Rings"
+}

@@ -3,6 +3,8 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec'
 require 'configulations'
 
+ENV["APP_ENV"] ||= "test"
+
 MyConfig = Configulations.new
 MyConfig.root = "/usr/local/bin/awesome"
 

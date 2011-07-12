@@ -32,7 +32,6 @@ describe Configulations do
 
     it "is recursive when it needs to be" do
       c = Configulations.new
-      raise c.inspect
       c.singles.person_one.name.should == "Leon"
     end
 
@@ -50,27 +49,28 @@ describe Configulations do
 
     context "when child introduces new config option" do
       it "is appended and namespaced to parent" do
-        # config/parent/child.json specifies:
-        #   favorite_movie = Empire Strikes Back
         @config.parent.child.favorite_movie.should == "Empire Strikes Back"
+        @config.parent.favorite_movie.should == "Lord of the Rings"
       end
 
       it "retains non-overwritten options" do
-        # config/parent/child.json specifies:
-        #   favorite_actor = Harrison Ford
         @config.parent.favorite_actor.should == "Harrison Ford"
+      end
+
+      context "environmental overrides." do
+        it "accepts the will of ENV specific children" do
+          @config.application.host.should == "test.local"
+          @config.application.test.host.should == "test.local"
+        end
+
+        it "maintains the un-overrided values" do
+          @config.application.port.should == 4200
+          @config.application.host.should == "test.local"
+        end
       end
     end
 
-    context "when child and parent share option" do
-      it "overwrites parent config option" do
-        # config/parent.json specifies:
-        #   favorite_trilogy = Lord of the Rings
-        # config/parent/child.json specifies:
-        #   favorite_trilogy = Star Wars
-        @config.parent.favorite_trilogy.should == "Star Wars"
-      end
-    end
+
   end
 end
 
