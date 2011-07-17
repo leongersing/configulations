@@ -26,17 +26,21 @@ config.admins.include? User.find_by_name("leon") #=> true
 
 Thanks to tonywok for starting the inheritance work... this is now possible: 
 
-structure:
-  config/
-    application.yml   #=> (host: 'production.local')
-    application/
-      development.yml #=> (host: 'development.local')
-      test.yml        #=> (host: 'test.local')
+###structure:
+```
+config/
+--application.yml   #=> (host: 'production.local')
+--application/
+-----development.yml #=> (host: 'development.local')
+-----test.yml        #=> (host: 'test.local')
+```
 
 if each has a host... then you can call it like so...
 
+```ruby
 ENV["APP_ENV"] ||= "test" #=> current support vars are "RACK_ENV", "RAILS_ENV", "APP_ENV"
 MyConfig.application.host.should == "test.local"
+```
 
 ## Known Issues
 
@@ -66,8 +70,8 @@ configuration be a bit more flexible than a yml, json file would allow.
 Many thanks to anyone who sends patches, emails, love my way to keep this
 software alive and a joy to maintain.
 
-github.com/tonywok
-github.com/al2o3cr (during pairing day at EdgeCase!)
+* github.com/tonywok
+* github.com/al2o3cr (during pairing day at EdgeCase!)
 
 ## Copyright
 
