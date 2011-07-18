@@ -2,23 +2,21 @@ require 'yaml'
 require 'json'
 require 'magic_hash'
 
+SUPPORTED_EXTENSIONS = [:yml, :yaml, :js, :json]
+ENVIRONMENTS         = ["RAILS_ENV", "RACK_ENV", "APP_ENV"]
+
 class Configulations
-  attr_accessor :root
-  attr_accessor :properties
-  attr_accessor :supported_extensions
-  attr_accessor :environments
+  attr_accessor :root, :properties
 
   def initialize(root="./config")
     @root                 = File.expand_path(root)
-    @supported_extensions = [:yml, :yaml, :js, :json]
-    @environments         = ["RAILS_ENV", "RACK_ENV", "APP_ENV"]
     @properties           = MagicHash.new
     find_properties(config_files_at_dir(@root))
     @properties.objectify
   end
 
   def environmental_override?(base)
-    !@environments.select{|ev| base.downcase == (ENV[ev] || "").downcase}.empty?
+    !ENVIRONMENTS.select{|ev| base.downcase == (ENV[ev] || "").downcase}.empty?
   end
 
   def find_properties(config_files, props=@properties, parent=nil)
@@ -49,7 +47,7 @@ class Configulations
   end
 
   def ext_glob_string
-    supported_extensions.map{|x|x.to_s}.join(",")
+    SUPPORTED_EXTENSIONS.map{|x|x.to_s}.join(",")
   end
 
   def parser_for_extname(extname)
