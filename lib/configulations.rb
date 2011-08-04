@@ -36,7 +36,8 @@ class Configulations
 
     props[base] = config_data
 
-    if Dir.exists?(dir = "#{File.dirname(file)}/#{base}")
+    dir = "#{File.dirname(file)}/#{base}"
+    if File.exists?(dir) and File.directory?(dir)
       child_configs = glob_directory_against_supported_extensions(dir)
       find_properties(child_configs, props[base], base)
     end
