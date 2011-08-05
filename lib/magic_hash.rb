@@ -28,7 +28,7 @@ module MagicHash
   end
 
   def method_missing(method_name, *args, &blk)
-    message = method_name.to_s.strip.downcase.gsub(/-/,"_")
+    message = method_name.to_s.strip.gsub(/-/,"_")
     if message =~ /=/
       self[message.gsub(/=/,"").to_sym]= args.flatten.first
       self.objectify
