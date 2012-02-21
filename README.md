@@ -42,6 +42,29 @@ ENV["APP_ENV"] ||= "test" #=> current support vars are "RACK_ENV", "RAILS_ENV", 
 MyConfig.application.host.should == "test.local"
 ```
 
+## Local Configuration
+
+Sometimes configuration based on environment isn't enough. Configulations allows you to have
+local configuration overrides for those times when you don't necessarily want everyone elses
+config to be like yours. Just mirror the configuration hierarchy in `your_config/local`.
+
+### Important
+
+It's on you to put it in your .gitignore if you don't want it shared.
+
+For example:
+
+```
+config/
+--application.yml
+--application/
+----development.yml
+--local/
+----application.yml    # => (override application wide configs here)
+----application/
+------development.yml  # => (override applicaiton configs for development)
+```
+
 ## Known Issues
 
 * Right now data is first in- first out. If you have 2 config files with the same name
