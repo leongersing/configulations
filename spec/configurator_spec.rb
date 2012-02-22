@@ -69,8 +69,20 @@ describe Configulations do
         end
       end
     end
+  end
 
+  describe "Local configuration" do
+    before { @config = Configulations.new("./config/local_overrides/") }
 
+    context "So to not leak my personal config, after loading initial config" do
+      it "looks in config/local for overrides" do
+        @config.local_override_config.basic_local_override.should be_true
+      end
+
+      it "supports environmental overrides" do
+        @config.local_override_config.environmental_override.should be_true
+      end
+    end
   end
 end
 

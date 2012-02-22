@@ -14,11 +14,8 @@ class Configulations
     @environments         = ["RAILS_ENV", "RACK_ENV", "APP_ENV"]
     @properties           = MagicHash.new
     find_properties(config_files_at_dir(@root))
+    find_properties(config_files_at_dir("#{@root}/local"))
     @properties.objectify
-  end
-
-  def environmental_override?(base)
-    !@environments.select{|ev| base.downcase == (ENV[ev] || "").downcase}.empty?
   end
 
   def find_properties(config_files, props=@properties, parent=nil)
@@ -38,19 +35,11 @@ class Configulations
 
     dir = "#{File.dirname(file)}/#{base}"
     if File.exists?(dir) and File.directory?(dir)
-      child_configs = glob_directory_against_supported_extensions(dir)
+      child_configs = glob_config_files_at(dir)
       find_properties(child_configs, props[base], base)
     end
 
     find_properties(config_files, props, parent)
-  end
-
-  def glob_directory_against_supported_extensions(dir)
-    Dir.glob("#{dir}/*.{#{ext_glob_string}}")
-  end
-
-  def ext_glob_string
-    supported_extensions.map{|x|x.to_s}.join(",")
   end
 
   def parser_for_extname(extname)
@@ -64,13 +53,31 @@ class Configulations
     end
   end
 
+  def environmental_override?(base)
+    !@environments.select{|ev| base.downcase == (ENV[ev] || "").downcase}.empty?
+  end
+
   def config_files_at_dir(dir)
-    ( config_files = glob_directory_against_supported_extensions(dir.to_s) ).reject do |file|
+    config_files = glob_config_files_at(dir.to_s) - glob_local_config_files_at(dir.to_s)
+
+    config_files.reject do |file|
       ext  = File.extname(file)
       base = File.basename(file, ext)
       parent_config = file.gsub(/\/#{base}#{ext}/, ext)
       config_files.include?(parent_config)
     end
+  end
+
+  def glob_config_files_at(dir)
+    Dir.glob("#{dir}/*.{#{ext_glob_string}}")
+  end
+
+  def glob_local_config_files_at(dir)
+    Dir.glob("#{dir}/local/*.{#{ext_glob_string}}")
+  end
+
+  def ext_glob_string
+    @ext_glob_string ||= supported_extensions.map{|x|x.to_s}.join(",")
   end
 
   def method_missing(message_name, *message_arguments, &optional_block)
