@@ -79,6 +79,10 @@ describe Configulations do
         @config.local_override_config.basic_local_override.should be_true
       end
 
+      it "respects the non-overridden values" do
+        @config.local_override_config.gem_name.should == "Configulations"
+      end
+
       it "supports environmental overrides" do
         @config.local_override_config.environmental_override.should be_true
       end
