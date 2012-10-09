@@ -31,7 +31,7 @@ class Configulations
       props[parent] = config_data if props[parent]
     end
 
-    props[base] = config_data
+    props[base] = (props[base] || {}).merge(config_data)
 
     dir = "#{File.dirname(file)}/#{base}"
     if File.exists?(dir) and File.directory?(dir)
