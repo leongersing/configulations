@@ -15,7 +15,7 @@ hash for any one that is using it.
 
 by default, Configulations is going to recursively dive into a "config" directory located
 by the location of the executing ruby process. from there, any files ending in .yml or .json
-with the respetive content-types of YAML or JSON will be loaded. The name of the file is 
+with the respective content-types of YAML or JSON will be loaded. The name of the file is 
 the first key and all properties can be fetched from there.
 
 ```ruby
@@ -45,7 +45,7 @@ MyConfig.application.host.should == "test.local"
 ## Local Configuration
 
 Sometimes configuration based on environment isn't enough. Configulations allows you to have
-local configuration overrides for those times when you don't necessarily want everyone elses
+local configuration overrides for those times when you don't necessarily want everyone else's
 config to be like yours. Just mirror the configuration hierarchy in `your_config/local`.
 
 ### Important
@@ -62,20 +62,20 @@ config/
 --local/
 ----application.yml    # => (override application wide configs here)
 ----application/
-------development.yml  # => (override applicaiton configs for development)
+------development.yml  # => (override application configs for development)
 ```
 
 ## Known Issues
 
-* Right now data is first in- first out. If you have 2 config files with the same name
-the last one in, wins.
+* Right now data is last in - first out. If you have 2 config files with the same name,
+the last one in wins.
 
 ## Future
 
 This is all I needed for now but I'd love to work out those issues mentioned above
 as well as allow for some robust Ruby configuration files that could take advantage
-of run time-evaluation and flow control for those situations when you'd like to let
-configuration be a bit more flexible than a yml, json file would allow.
+of run-time evaluation and flow control for those situations when you'd like to let
+configuration be a bit more flexible than a yml or json file would allow.
 
 ## Contributing to configulations
  
@@ -85,7 +85,7 @@ configuration be a bit more flexible than a yml, json file would allow.
 * Start a feature/bugfix branch
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or it is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 * This list is from Jeweler. Which is awesome...
 
 ## Contributors
