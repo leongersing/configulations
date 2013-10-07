@@ -36,8 +36,7 @@ module MagicHash
     elsif message =~ /\?/
       return !!(self[message.gsub(/\?/,"").to_sym])
     else
-      result = self[message.to_sym]
-      return result unless result.nil?
+      return self[message.to_sym] if self.has_key?( message.to_sym )
     end
 
     super(method_name, *args, &blk)
