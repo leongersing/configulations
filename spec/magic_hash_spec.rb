@@ -3,9 +3,10 @@ require "spec_helper"
 describe(MagicHash) do
   describe("what makes it magical...") do
     it "gives dot syntax to Hash." do
-      options ={:foo => "bar", :baz => false}
+      options ={:foo => "bar", :bar => nil, :baz => false}
       options.extend(MagicHash)
       options.foo.should == "bar"
+      options.bar.should == nil
       options.baz.should == false
     end
 

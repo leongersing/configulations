@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{configulations}
-  s.version = "0.2.2"
+  s.version = File.read(File.expand_path("../VERSION", __FILE__)).chomp
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Leon Gersing}]
